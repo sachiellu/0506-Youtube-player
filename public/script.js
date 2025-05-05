@@ -1,5 +1,6 @@
 // --- Configuration ---
-const BACKEND_API_BASE_URL = 'http://localhost:3000'; // <-- 本地開發用
+// **重要：後端 API 現在與前端同源，使用相對路徑**
+const BACKEND_API_BASE_URL = ''; // 使用空字串或 '/' 代表同源根路徑
 
 // --- Global Variables ---
 let player;
@@ -52,7 +53,7 @@ async function fetchAndPlayRandomSong(genre) {
     enableButtons(false);
 
     try {
-        const response = await fetch(`${BACKEND_API_BASE_URL}/api/random-song?genre=${encodeURIComponent(genre)}`);
+        const response = await fetch(`/api/random-song?genre=${encodeURIComponent(genre)}`);
 
         if (!response.ok) {
             let errorMsg = `Error: ${response.status} ${response.statusText}`;
