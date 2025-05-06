@@ -1,6 +1,6 @@
 // --- Configuration ---
 // *** 非常重要：確保這是正確的 Fly.io URL ***
-const BACKEND_API_BASE_URL = 'https://youtube-music-project.fly.dev/'; 
+const BACKEND_API_BASE_URL = 'https://youtube-music-project.fly.dev'; 
 
 // --- Global Variables ---
 let player;
