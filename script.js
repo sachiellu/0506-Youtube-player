@@ -53,56 +53,53 @@ async function fetchAndPlayRandomSong(genre) {
     enableButtons(false);
 
     try {
-	const response = await fetch(`${BACKEND_API_BASE_URL}/api/random-song?genre=${encodeURIComponent(genre)}`);
+        const response = await fetch(`${BACKEND_API_BASE_URL}/api/random-song?genre=${encodeURIComponent(genre)}`);
 
         if (!response.ok) {
             let errorMsg = `Error: ${response.status} ${response.statusText}`;
             try {
+                // 嘗試讀取後端返回的更詳細的錯誤訊息 (如果是 JSON 格式)
                 const errorData = await response.json();
-                errorMsg = errorData.error || errorMsg;
+                errorMsg = errorData.error || errorMsg; // 使用後端提供的錯誤訊息
             } catch (e) {
-                // Ignore if response body is not JSON or empty
+                // 如果回應不是 JSON 或為空，則忽略解析錯誤，使用原始錯誤
             }
-            throw new Error(errorMsg);
+            throw new Error(errorMsg); // 拋出包含狀態碼或後端訊息的錯誤
         }
 
         const data = await response.json();
 
+        // 增加對後端回傳數據的檢查
         if (data.videoId && data.title) {
             console.log(`Received videoId: ${data.videoId}, title: ${data.title}`);
             statusMessage.textContent = `Loading: ${data.title}`;
             currentSongDisplay.textContent = `Now Playing: ${data.title}`;
             player.loadVideoById(data.videoId);
-            // Playback usually starts automatically after loadVideoById if ready
+            // 播放器準備好後通常會自動播放
         } else {
              console.error("Invalid data received from backend:", data);
-             throw new Error("Backend did not return valid video data.");
+             // 提供更具體的錯誤訊息給用戶
+             throw new Error("Backend returned incomplete video data.");
         }
 
     } catch (error) {
         console.error('Failed to fetch or play song:', error);
-        statusMessage.textContent = `Error finding song: ${error.message}. Please try again.`;
-        currentSongDisplay.textContent = "";
+        // 向用戶顯示更友好的錯誤訊息
+        statusMessage.textContent = `Error: ${error.message}. Please try again.`;
+        currentSongDisplay.textContent = ""; // 清除歌曲標題
     } finally {
-        enableButtons(true);
-        // Optionally hide loading message after a delay
-        setTimeout(() => {
-           if (statusMessage.textContent.startsWith("Loading:")) {
-               statusMessage.textContent = ""; // Clear status or set to something else
-           }
-       }, 5000); // Hide after 5 seconds for example
+        enableButtons(true); // 無論成功或失敗，重新啟用按鈕
     }
 }
 
 // --- Event Listeners ---
 genreButtons.forEach(button => {
     button.addEventListener('click', () => {
-        const genre = button.dataset.genre;
+        const genre = button.dataset.genre; // 從 data-genre 屬性獲取曲風
         fetchAndPlayRandomSong(genre);
     });
 });
 
 // --- Initial State ---
 statusMessage.textContent = "Initializing player...";
-currentSongDisplay.textContent = "";
-enableButtons(false);
+enableButtons(false); // 初始禁用按鈕，等待 Player Ready
