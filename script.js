@@ -53,7 +53,7 @@ async function fetchAndPlayRandomSong(genre) {
     enableButtons(false);
 
     try {
-        const response = await fetch(`/api/random-song?genre=${encodeURIComponent(genre)}`);
+	const response = await fetch(`${BACKEND_API_BASE_URL}/api/random-song?genre=${encodeURIComponent(genre)}`);
 
         if (!response.ok) {
             let errorMsg = `Error: ${response.status} ${response.statusText}`;
