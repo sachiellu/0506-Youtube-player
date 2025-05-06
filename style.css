@@ -1,6 +1,6 @@
 /* 基本樣式 */
 body {
-    font-family: sans-serif; /* 使用常見的無襯線字體 */
+    font-family:'DM Serif Display', sans-serif; /* 使用 DM Serif Display 字體 */
     background-color: #f4f4f4; /* 淺灰色背景 */
     color: #333; /* 深灰色文字 */
     margin: 0;
