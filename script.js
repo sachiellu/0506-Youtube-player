@@ -1,6 +1,6 @@
 // --- Configuration ---
-// **重要：後端 API 現在與前端同源，使用相對路徑**
-const BACKEND_API_BASE_URL = ''; // 使用空字串或 '/' 代表同源根路徑
+// *** 非常重要：確保這是正確的 Fly.io URL ***
+const BACKEND_API_BASE_URL = 'https://youtube-music-project.fly.dev/'; 
 
 // --- Global Variables ---
 let player;
