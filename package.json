@@ -1,15 +1,23 @@
 {
-  "name": "my-v0-project",
+  "name": "youtube-music-project",
   "version": "0.1.0",
   "private": true,
   "scripts": {
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "start:backend": "node server.js"
   },
+   "keywords": [],
+   "author": "",
+   "license": "ISC",
+   "description": "",
   "dependencies": {
-    "next": "latest"
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+     "node-fetch": "^2.7.0",
     "@emotion/is-prop-valid": "latest",
     "@hookform/resolvers": "^3.9.1",
     "@radix-ui/react-accordion": "1.2.2",
@@ -61,7 +69,7 @@
     "vaul": "^0.9.6",
     "zod": "^3.24.1"
   },
-  "devDependencies": {
+   "devDependencies": {
     "@tailwindcss/nesting": "0.0.0-insiders.565cd3e",
     "@tailwindcss/postcss": "^4.1.5",
     "@types/node": "^22",
