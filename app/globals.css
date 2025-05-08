@@ -1,0 +1,86 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* 主背景色 - 米色 #FAF3DD */
+    --background: 48 67% 92%;
+    --foreground: 200 15% 20%;
+
+    /* 卡片背景 - 略微深一點的米色 */
+    --card: 48 60% 95%;
+    --card-foreground: 200 15% 20%;
+
+    /* 彈出框背景 */
+    --popover: 48 60% 95%;
+    --popover-foreground: 200 15% 20%;
+
+    /* 主色調 - 橄欖綠 */
+    --primary: 95 35% 40%;
+    --primary-foreground: 95 35% 97%;
+
+    /* 次要色調 - 淺橄欖色 */
+    --secondary: 95 25% 90%;
+    --secondary-foreground: 95 35% 25%;
+
+    /* 柔和背景 - 淺米色 */
+    --muted: 48 30% 88%;
+    --muted-foreground: 200 10% 40%;
+
+    /* 強調色 - 淺橄欖色 */
+    --accent: 95 25% 90%;
+    --accent-foreground: 95 35% 25%;
+
+    /* 危險色 - 柔和的紅色 */
+    --destructive: 0 70% 60%;
+    --destructive-foreground: 0 0% 98%;
+
+    /* 邊框和輸入框 */
+    --border: 48 30% 80%;
+    --input: 48 30% 80%;
+    --ring: 95 35% 40%;
+
+    /* 圓角 */
+    --radius: 0.75rem;
+  }
+
+  .dark {
+    --background: 48 30% 15%;
+    --foreground: 48 30% 90%;
+
+    --card: 48 25% 20%;
+    --card-foreground: 48 30% 90%;
+
+    --popover: 48 25% 20%;
+    --popover-foreground: 48 30% 90%;
+
+    --primary: 95 35% 40%;
+    --primary-foreground: 95 35% 97%;
+
+    --secondary: 48 20% 25%;
+    --secondary-foreground: 48 30% 90%;
+
+    --muted: 48 15% 25%;
+    --muted-foreground: 48 20% 70%;
+
+    --accent: 48 20% 25%;
+    --accent-foreground: 48 30% 90%;
+
+    --destructive: 0 70% 50%;
+    --destructive-foreground: 0 0% 98%;
+
+    --border: 48 20% 30%;
+    --input: 48 20% 30%;
+    --ring: 95 35% 40%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}
