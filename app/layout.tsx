@@ -2,9 +2,8 @@ import type { Metadata } from 'next'
 import './globals.css'
 
 export const metadata: Metadata = {
-  title: 'v0 App',
-  description: 'Created with v0',
-  generator: 'v0.dev',
+  title: 'YouTube Player',
+  description: '根據曲風隨機播放 YouTube 音樂的應用程式',
 }
 
 export default function RootLayout({

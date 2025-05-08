@@ -120,7 +120,7 @@ export default function Home() {
           <div className="container flex h-16 items-center justify-between">
             <div className="flex items-center gap-2">
               <Leaf className="h-6 w-6 text-primary" />
-              <span className="text-xl font-semibold">YouTube 播放器</span>
+              <span className="text-xl font-semibold">自然音樂探索</span>
             </div>
             <p className="text-sm text-muted-foreground hidden md:block">發現、收藏並享受各種音樂</p>
           </div>
@@ -129,9 +129,11 @@ export default function Home() {
         <main className="container py-8 md:py-12">
           <MotionScroll>
             <h1 className="text-3xl font-bold tracking-tight sm:text-4xl md:text-5xl text-center mb-8">
+              YouTube{" "}
               <span className="bg-gradient-to-r from-primary to-primary/70 bg-clip-text text-transparent">
-                YouTube 播放器
-              </span>
+                隨機曲風
+              </span>{" "}
+              音樂播放器
             </h1>
           </MotionScroll>
 
@@ -184,7 +186,7 @@ export default function Home() {
             <div className="flex flex-col sm:flex-row justify-between items-center gap-4">
               <div className="flex items-center gap-2">
                 <Leaf className="h-5 w-5 text-primary" />
-                <span className="font-medium">YouTube 播放器</span>
+                <span className="font-medium">自然音樂探索</span>
               </div>
               <p className="text-sm text-muted-foreground">
                 © {new Date().getFullYear()} YouTube 播放器. 保留所有權利.
