@@ -1,7 +1,7 @@
 /* 基本樣式 */
 body {
-    font-family:'DM Serif Display', sans-serif; /* 使用 DM Serif Display 字體 */
-    background-color: #f4f4f4; /* 淺灰色背景 */
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+    background-color: #FAF3DD; /* 米白色背景 */
     color: #333; /* 深灰色文字 */
     margin: 0;
     padding: 20px;
@@ -12,7 +12,7 @@ body {
 }
 
 h1 {
-    color: #5a3a8a; /* 紫色標題 */
+    color: #0a0908; /* 黑色標題 */
     margin-bottom: 30px;
 }
 
