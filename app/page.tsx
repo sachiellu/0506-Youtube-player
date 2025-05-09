@@ -186,7 +186,7 @@ export default function Home() {
             <div className="flex flex-col sm:flex-row justify-between items-center gap-4">
               <div className="flex items-center gap-2">
                 <Leaf className="h-5 w-5 text-primary" />
-                <span className="font-medium">自然音樂探索</span>
+                <span className="font-medium">自然音樂探索.</span>
               </div>
               <p className="text-sm text-muted-foreground">
                 © {new Date().getFullYear()} YouTube 播放器. 保留所有權利.
