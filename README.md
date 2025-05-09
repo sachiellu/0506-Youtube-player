@@ -44,11 +44,11 @@
     ```bash
     git clone https://github.com/sachiellu/0506-Youtube-player.git
     cd 0506-Youtube-player
-        ```
+
 2.  **切換到 V2 開發分支：**
     ```bash
     git checkout nextjs-rewrite
-        ```
+
 3.  **安裝依賴：** (假設使用 pnpm)
     ```bash
     pnpm install
