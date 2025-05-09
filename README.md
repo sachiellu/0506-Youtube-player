@@ -1,146 +1,112 @@
 # Youtube Music Player
 
-這是一個簡單的全端網頁應用程式，允許使用者選擇一些音樂類型，然後從Youtube隨機撥放一首選擇曲風的熱門歌曲
-播放程式透過Docker容器化並部屬在Fly.io上
+根據選擇的曲風，隨機從 YouTube 搜尋並播送熱門音樂的 Web 應用程式。
 
-## 功能特色
+## V2 版本 -重新使用 Next.js 構建(最新版)
 
-*    提供不同音樂類型供選擇
-*    點擊按鈕後，透過後端API向Youtube Data API搜尋該類型的熱門影片
-*    從搜尋結果中隨機選擇一首可嵌入的影片
-*    使用Youtube IFrame Player API在前端撥放選種的影片
-*    顯示目前撥放歌曲的標題
-*    極簡化
+** 線上演示 (Live Demo):** [https://youtube-player-4xeitcoiw-sachiellus-projects.vercel.app/](https://youtube-player-4xeitcoiw-sachiellus-projects.vercel.app/)
 
-## 技術棧
-*前端* 
-*    HTML5
-*    CSS3
-*    JavaScript (ES6+)
-*    Fetch API (呼叫後端)
-*    YouTube IFrame Player API(播放影片)
-*後端*    
-*    Node.js
-*    Express.js (Web框架)
-*    `node-fetch` (向 Youtube API發送請求)
-*    `dotenv` (管理環境變數)
-*API*
-*    Youtube Data API v3 (搜尋影片)
-*容器化與部屬*
-*    Docker: 用來打包應用程式
-*    Fly.io: 用來託管容器化應用程式 
-
-## 線上 Demo
-
-*   **前端部署連結：** [https://youtube-music-player-mick.fly.dev](https://youtube-music-player-mick.fly.dev)
+此版本是原V1版本更新，前端使用 Next.js 跟 React 進行重構，提升開發體驗、元件化程度與保留未來可擴展性。
 
 
-## 本地開發設定
+### V2 版本技術棧
 
-### 事前準備
+*   **前端 (Frontend):**
+    *   框架 (Framework): Next.js (App Router)
+    *   語言 (Language): TypeScript
+    *   UI 函式庫 (UI Library): React
+    *   樣式 (Styling): Tailwind CSS 
+    *   UI 元件 (UI Components): Radix UI, shadcn/ui
+    *   動畫 (Animation): Framer Motion
+    *   圖示 (Icons): Lucide React
+    *   部署 (Deployment): Vercel
+*   **後端 (Backend):**
+    *   環境 (Environment): Node.js
+    *   框架 (Framework): Express.js
+    *   API 呼叫 (API Calls): node-fetch (用於 YouTube Data API)
+    *   部署 (Deployment): Fly.io
+*   **外部服務 (External Services):**
+    *   YouTube Data API v3
 
-1.  安裝 [Node.js](https://nodejs.org/) (包含 npm)
-2.  安裝 [Git](https://git-scm.com/)
-3.  取得 [YouTube Data API v3 金鑰](https://console.cloud.google.com/) (請參考 Google Cloud 文件)
-4.  註冊 [GitHub](https://github.com/) 帳號
+### V2 版本功能特色
 
-### 安裝步驟
+*   使用前端框架 Next.js 和 React 構建，提供更流暢的使用者體驗。
+*   響應式設計，適應不同螢幕尺寸。
+*   可選擇不同音樂曲風。
+*   隨機播放來自 YouTube 的熱門音樂。
+*   播放歷史記錄。
+*   收藏喜愛歌曲列表。
+*   更美觀的使用者介面。
 
-1.  **Clone 倉庫：**
+### V2 版本本地運行指南
+
+1.  **克隆倉庫：**
     ```bash
-    git clone https://github.com/sachiellu/0506-Youtube-player
+    git clone https://github.com/sachiellu/0506-Youtube-player.git
     cd 0506-Youtube-player
-    ```
-
-2.  **安裝 Node.js 依賴：**
-    ```bash
-    npm install
-    ```
-
-3.  **設定本地環境變數：**
-    *   在專案根目錄**建立**一個 `.env` 檔案 (此檔案不會提交到 Git)。
-    *   在 `.env` 檔案中加入以下內容，並將 `你的YOUTUBE_API_金鑰` 換成你自己的金鑰：
-        ```dotenv
-        YOUTUBE_API_KEY=你的YOUTUBE_API_金鑰
-        PORT=3000 # 本地開發端口
-        NODE_ENV=development
         ```
-    *   **注意：** 部署到 Fly.io 時，`YOUTUBE_API_KEY` 需要透過 `flyctl secrets set` 設定。
-
-4.  **執行本地開發伺服器：**
+2.  **切換到 V2 開發分支：**
     ```bash
-    # 確保 dotenv 在 server.js 開頭被加載以讀取 .env
-    node server.js
-    ```
-    伺服器預設會在 `http://localhost:3000` 啟動。前端和後端 API 都在此地址提供。
-
-
-5.  **訪問前端頁面：**
-    打開你的網頁瀏覽器，訪問 `http://localhost:3000`。
-
-## 部署到 Fly.io
-
-### 事前準備
-
-*   確保你已經安裝並登入了 `flyctl`。
-*   確保 Docker 正在運行。
-*   確保你的專案包含 `Dockerfile` 和 `fly.toml` 設定檔 (如果還沒有，可以運行 `flyctl launch` 來生成，但**不要**選擇自動部署或建立資料庫)。
-
-### 部署步驟
-
-1.  **設定 API 金鑰 Secret：**
-    將你的 YouTube API 金鑰安全地設定為 Fly.io 的 Secret：
+    git checkout nextjs-rewrite
+        ```
+3.  **安裝依賴：** (假設使用 pnpm)
     ```bash
-    flyctl secrets set YOUTUBE_API_KEY="你的真實YOUTUBE_API金鑰"
+    pnpm install
     ```
+4.  **設定環境變數 (後端)：**
+    *   在專案根目錄建立 `.env` 文件。
+    *   在 `.env` 文件中加入 `YOUTUBE_API_KEY=你的YouTube_API金鑰` (此金鑰用於本地後端開發測試，請勿提交到 Git)。
+5.  **啟動服務：**
+    *   啟動前端開發伺服器 (Next.js):
+        ```bash
+        pnpm run dev
+        ```
+        (通常在 `http://localhost:3000` 運行)
+    *   啟動後端 API 伺服器 (Node.js/Express):
+        ```bash
+        npm start 
+        # 或者 node server.js (如果 package.json 中 start 指令是這個)
+        ```
+        (通常在 `http://localhost:3001` 或其他與前端不同的端口運行，確保前端 `BACKEND_API_BASE_URL` 指向此本地後端端口)
 
-2.  **(可選但推薦) 將本地更改推送到 Git 倉庫：**
-    ```bash
-    git add .
-    git commit -m "Prepare for Fly.io deployment"
-    git push origin main
-    ```
+---
 
-3.  **執行部署命令：**
-    ```bash
-    flyctl deploy
-    ```
-    Fly.io 會根據 `Dockerfile` 建置映像檔並部署你的應用程式。
+## V1 版本 (舊版)
 
-4.  **查看部署狀態和網址：**
-    部署完成後，`flyctl` 會顯示你的應用程式網址。你也可以使用以下命令：
-    ```bash
-    flyctl status  # 查看應用狀態
-    flyctl open    # 在瀏覽器打開應用網址
-    flyctl logs    # 查看應用程式日誌
-    ```
+此專案的初始版本 (V1) 是使用純 HTML、CSS、Vanilla JavaScript 以及一個獨立的 Node.js/Express 後端服務實現的。這個版本是個人學習 Web 開發、前後端交互以及 API 使用的早期探索。
 
-## 注意事項
+### 主要技術棧 (V1)
 
-*   **API 金鑰安全：** 絕對不要將你的 `YOUTUBE_API_KEY` 或 `.env` 檔案提交到公開的 Git 倉庫。在 Fly.io 上務必使用 `flyctl secrets set` 來管理金鑰。
-*   **YouTube API 配額：** YouTube Data API 有免費的使用配額限制。頻繁請求可能導致暫時無法使用。
-*   **`.dockerignore`：** 為了優化 Docker 建置速度和安全性，建議在專案根目錄添加一個 `.dockerignore` 檔案，至少包含以下內容，以避免將不必要的檔案複製到 Docker 映像中：
-    ```
-    node_modules
-    npm-debug.log
-    .env
-    .git
-    .gitignore
-    .dockerignore
-    README.md
-    ```
-*   **監聽端口：** 確保 `server.js` 中的 `app.listen` 監聽 `process.env.PORT` 或預設值 (例如 8080)，並且監聽的主機是 `'0.0.0.0'` (`app.listen(PORT, '0.0.0.0', ...)`) 以便容器能被外部訪問。`Dockerfile` 中也應 `EXPOSE` 相應的端口。
+*   **前端 (Frontend):**
+    *   HTML5
+    *   CSS3
+    *   Vanilla JavaScript (原生 JS)
+    *   部署 (Deployment): GitHub Pages (已停用)
+*   **後端 (Backend):**
+    *   環境 (Environment): Node.js
+    *   框架 (Framework): Express.js
+    *   API 呼叫 (API Calls): node-fetch (用於 YouTube Data API)
+    *   部署 (Deployment): Fly.io
+*   **外部服務 (External Services):**
+    *   YouTube Data API v3
 
+### V1 版本學習記錄
 
+*   基礎前端網頁結構與樣式設計。
+*   使用原生 JavaScript 進行 DOM 操作和事件處理。
+*   通過 `fetch` API 進行非同步數據請求。
+*   建立簡單的 Node.js/Express 後端 API 服務。
+*   環境變數的使用和 API 金鑰的基礎保護。
+*   前端部署到 GitHub Pages 和後端部署到 Fly.io 的流程。
 
+雖然 V1 版本的功能已由 V2 版本取代，但相關的程式碼和提交歷史仍然保留在 GitHub 倉庫的 `main` 分支的早期歷史記錄中，作為個人技術成長的見證。V1 版本的 GitHub Pages 部署現已停用，請訪問上面的 V2 版本連結體驗最新功能。
+
+---
 
 ## (可選) 未來可能的改進
 
-*   添加更多音樂類型。
 *   加入使用者註冊/登入功能 (可以利用 Fly.io 的 Persistent Volumes 配合 SQLite 或連接外部資料庫)。
 *   記住使用者上次選擇的類型。
 *   添加播放清單功能。
 *   更友好的錯誤處理和 UI 提示。
 *   對搜尋結果進行快取以減少 API 呼叫。
-*   加入 loading 動畫效果。
-*   設置 CI/CD 自動部署 (例如使用 GitHub Actions `flyctl deploy`)。
