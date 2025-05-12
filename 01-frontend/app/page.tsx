@@ -1,6 +1,8 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState, useEffect, useRef } from "react"
+import YouTubePlayer from '@/components/YouTubePlayer';
+import CustomPlayerControls from '@/components/CustomPlayerControls';
 import { MusicPlayer } from "@/components/music-player"
 import { GenreSelector } from "@/components/genre-selector"
 import { PlayHistory } from "@/components/play-history"
@@ -10,16 +12,110 @@ import { musicGenres } from "@/data/music-genres"
 import { Leaf } from "lucide-react"
 import { FavoritesProvider } from "@/contexts/favorites-context"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { YouTubePlayer as PlayerInstanceType } from 'react-youtube'; // 確保引入了 PlayerInstanceType
+
+const BACKEND_API_BASE_URL = 'http://localhost:3001';
+// const BACKEND_API_BASE_URL = 'https://youtube-music-project.fly.dev';
 
 export default function Home() {
   const [selectedGenre, setSelectedGenre] = useState<string | null>(null)
   const [currentVideo, setCurrentVideo] = useState<string | null>(null)
+  const [currentVideoId, setCurrentVideoId] = useState<string | null>(null);
   const [currentVideoTitle, setCurrentVideoTitle] = useState<string>("未知歌曲")
   const [currentVideoGenre, setCurrentVideoGenre] = useState<string>("未知曲風")
   const [history, setHistory] = useState<Array<{ id: string; title: string; genre: string }>>([])
   const [isLoading, setIsLoading] = useState(false)
   const [playHistory, setPlayHistory] = useState<string[]>([]) // 用於記錄播放過的視頻ID
   const [historyIndex, setHistoryIndex] = useState(-1) // 當前在播放歷史中的位置
+  const [isCompactView, setIsCompactView] = useState<boolean>(false); // 視圖模式 state
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [progress, setProgress] = useState(0);
+  const [duration, setDuration] = useState(0);
+  const [currentTime, setCurrentTime] = useState(0);
+
+  const playerRef = useRef<PlayerInstanceType | null>(null);
+
+  const handlePlayerReady = (player: PlayerInstanceType) => {
+    playerRef.current = player;
+    const videoDuration = player.getDuration();
+    setDuration(videoDuration || 0);
+  };
+
+  const fetchMusic = async (genre: string) => { /* ...你的 fetch 邏輯... */ };
+  const handleGenreSelect = (genre: string) => { /* ...你的選擇邏輯... */ };
+
+
+  const handlePlayPause = () => {
+    if (!playerRef.current) return;
+    const player = playerRef.current;
+    const playerState = player.getPlayerState();
+    if (playerState === 1 /* PLAYING */) {
+      player.pauseVideo();
+    } else {
+      player.playVideo();
+    }
+    // isPlaying 狀態會由下面的 useEffect 根據 player state 更新
+  };
+
+  const handleSeek = (newProgress: number) => {
+    if (!playerRef.current || duration === 0) return;
+    const newTime = (newProgress / 100) * duration;
+    playerRef.current.seekTo(newTime, true);
+  };
+
+  const handleToggleView = () => {
+    setIsCompactView(!isCompactView);
+  };
+
+  // 監聽播放器狀態並更新 React state
+  useEffect(() => {
+    if (!playerRef.current) return;
+
+    const player = playerRef.current;
+    let intervalId: NodeJS.Timeout | null = null;
+
+    const updateStates = () => {
+      const playerState = player.getPlayerState();
+      const currentTimeVal = player.getCurrentTime();
+      const currentDuration = player.getDuration();
+
+      setIsPlaying(playerState === 1 /* PLAYING */);
+      setCurrentTime(currentTimeVal || 0);
+      if (currentDuration > 0) {
+        setDuration(currentDuration);
+        setProgress(((currentTimeVal || 0) / currentDuration) * 100);
+      } else {
+        setDuration(0); // 如果獲取不到有效時長
+        setProgress(0);
+      }
+    };
+
+    // 初始獲取一次狀態
+    if(currentVideoId) updateStates();
+
+    // 監聽 stateChange 事件
+    const onPlayerStateChange = (event: any) => {
+      updateStates();
+      if (event.data === 0 /* ENDED */) {
+        // 處理播放結束邏輯，例如播放下一首
+        console.log("Video Ended");
+      }
+    };
+
+    player.on('stateChange', onPlayerStateChange);
+
+    // 如果正在播放，啟動定時器更新進度 (主要用於進度條平滑)
+    if (isPlaying) {
+      intervalId = setInterval(updateStates, 500); // 每半秒更新一次
+    } else if (intervalId) {
+      clearInterval(intervalId);
+    }
+
+    return () => {
+      player.off('stateChange', onPlayerStateChange); // 清除事件監聽器
+      if (intervalId) clearInterval(intervalId);
+    };
+  }, [playerRef.current, currentVideoId, isPlaying]); // 依賴變化時重新設定
 
   // 當選擇新曲風時，獲取隨機影片
   useEffect(() => {
@@ -112,11 +208,10 @@ export default function Home() {
 
   return (
     <FavoritesProvider>
-      <div className="min-h-screen bg-background">
-        <div className="absolute inset-0 bg-[url('/noise.svg')] opacity-5 mix-blend-soft-light pointer-events-none"></div>
+      <div className="min-h-screen bg-background flex flex-col">
         <div className="absolute inset-0 bg-gradient-to-b from-transparent to-muted/50 pointer-events-none"></div>
 
-        <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+        <header className="sticky top-0 z-40 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60"> 
           <div className="container flex h-16 items-center justify-between">
             <div className="flex items-center gap-2">
               <Leaf className="h-6 w-6 text-primary" />

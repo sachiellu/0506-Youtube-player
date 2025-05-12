@@ -9,7 +9,7 @@ WORKDIR /app
 FROM base AS deps
 COPY package.json package-lock.json ./
 # 只安裝生產環境依賴，以縮小映像檔大小
-RUN npm install --omit=dev
+RUN npm install --omit=dev --no-package-lock
 
 # ---- Build Stage ----
 # 如果你有建置步驟 (例如 TypeScript 編譯、前端打包)，在這裡做
@@ -23,9 +23,7 @@ ENV NODE_ENV=production
 # 將依賴從 deps stage 複製過來
 COPY --from=deps /app/node_modules ./node_modules
 # 複製後端程式碼
-COPY server.js .
-# 複製前端靜態檔案
-COPY public ./public
+COPY . .
 
 # 設定應用程式預設監聽的端口 (可以被環境變數覆蓋)
 # Fly.io 通常使用 8080 作為內部端口

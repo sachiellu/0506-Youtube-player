@@ -2,9 +2,11 @@
 
 # dependencies
 /node_modules
+01-frontend/node_modules/ # 為了更明確
+02-backend/node_modules/ # 為了更明確
 
 # next.js
-/.next/
+01-frontend/.next/
 /out/
 
 # production
@@ -17,7 +19,9 @@ yarn-error.log*
 .pnpm-debug.log*
 
 # env files
-.env*
+.env
+01-frontend/.env.local
+02-backend/.env
 
 # vercel
 .vercel
