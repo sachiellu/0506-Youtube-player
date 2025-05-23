@@ -4,7 +4,7 @@
 
 ## V2 版本 -重新使用 Next.js 構建(最新版)
 
-** 線上演示 (Live Demo):** [https://youtube-player-4xeitcoiw-sachiellus-projects.vercel.app/](https://youtube-player-4xeitcoiw-sachiellus-projects.vercel.app/)
+** 線上演示 (Live Demo):** [https://youtube-player-git-nextjs-rewrite-sachiellus-projects.vercel.app/](https://youtube-player-git-nextjs-rewrite-sachiellus-projects.vercel.app/)
 
 此版本是原V1版本更新，前端使用 Next.js 跟 React 進行重構，提升開發體驗、元件化程度與保留未來可擴展性。
 
